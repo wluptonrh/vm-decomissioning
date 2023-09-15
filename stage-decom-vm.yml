@@ -18,6 +18,7 @@
        username: '{{ vcenter_username }}'
        password: '{{ vcenter_password }}'
        datacenter: "{{ vsphere_datacenter }}"
+       validate_certs: false
      delegate_to: localhost
      register: vcenter_folder_info
 
@@ -32,6 +33,7 @@
        password: "{{ vcenter_password }}"
        datacenter: "{{ vsphere_datacenter }}"
        name: "{{ stage_vm }}"
+       validate_certs: false
        #schema: "vsphere"
        #properties: ["config.hardware.memoryMB", "guest.disk", "overallStatus"]
      delegate_to: localhost
@@ -65,6 +67,7 @@
        username: '{{ vcenter_username }}'
        password: '{{ vcenter_password }}'
        category_name: deletion-date
+       validate_certs: false
        tag_name:  "{{ deletion_date.stdout }}"
      
 
@@ -81,6 +84,7 @@
        object_name: "{{ stage_vm }}"
        object_type: VirtualMachine
        state: add
+       validate_certs: false
      delegate_to: localhost
 
    - name: Move to vm to staging folder
@@ -91,4 +95,5 @@
        datacenter: "{{ vsphere_datacenter }}"
        name: "{{ stage_vm }}"
        dest_folder: "{{ staging_folder }}" #"/{{ datacenter }}/vm"
+       validate_certs: false
      delegate_to: localhost
