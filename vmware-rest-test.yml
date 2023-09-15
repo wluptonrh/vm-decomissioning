@@ -1,0 +1,22 @@
+---
+ - name: test vmware_rest collection
+   hosts: localhost
+   #vars:
+   #      vcenter_username: 
+   #      vcenter_password: 
+   #      vcenter_hostname:
+   #      vmware_vcenter_validate_certs:
+   tasks:
+
+     - name: Get virtual machine info
+       vmware.vmware_rest.vcenter_vm_info:
+          vcenter_username: "{{ vcenter_username }}"
+          vcenter_password: "{{ vcenter_password }}"
+          vcenter_hostname: "{{ vcenter_hostname }}"
+          # filter_names:
+          #  - "{{ vm_details.template }}"
+          vcenter_validate_certs: "{{ vmware_vcenter_validate_certs }}"
+       register: vm_info
+
+     - ansible.builtin.debug:
+          msg: "{{ vm_info }}"
