@@ -1,0 +1,21 @@
+---
+ - name: Check host age with VMware inventory source
+   become: false
+   hosts: localhost
+   gather_facts: true
+
+   tasks:
+
+     #Ensure you have a credential with your vmware credntials is defined
+     - name: Gather info of all vms
+       community.vmware.vmware_vm_info:
+         hostname: '{{ vcenter_hostname }}'
+         username: '{{ vcenter_username }}'
+         password: '{{ vcenter_password }}'
+         show_tag: true
+       delegate_to: localhost
+       register: vm_info
+
+     - name: Print vm info to output
+       debug:
+         msg: "{{ vm_info }}"
