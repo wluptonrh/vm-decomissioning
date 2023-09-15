@@ -1,0 +1,12 @@
+; VMWARE_TEST_PLATFORM=static ansible-test integration --python 3.8
+[DEFAULT]
+vcenter_hostname: vcenter.test
+vcenter_username: user
+vcenter_password: pass
+vmware_validate_certs: false
+esxi1_hostname: esxi1.test
+esxi1_username: root
+esxi1_password: pass
+esxi2_hostname: test2.test
+esxi2_username: root
+esxi2_password: pass

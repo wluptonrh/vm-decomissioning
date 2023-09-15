@@ -1,0 +1,78 @@
+# Test code for the vmware_host_tcpip_stacks module.
+# Copyright: (c) 2021, sky-joker <sky.jokerxx@gmail.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+- name: destroy vmkernel for provisioning
+  vmware_vmkernel:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    esxi_hostname: "{{ esxi_hosts[0] }}"
+    vswitch_name: "{{ switch1 }}"
+    portgroup_name: provisioning
+    device: "{{ provisioning_vmk }}"
+    network:
+      type: static
+      ip_address: 100.64.0.1
+      subnet_mask: 255.255.255.0
+      tcpip_stack: provisioning
+    state: absent
+  ignore_errors: true
+
+- name: destroy vmkernel for vmotion
+  vmware_vmkernel:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    esxi_hostname: "{{ esxi_hosts[0] }}"
+    vswitch_name: "{{ switch1 }}"
+    portgroup_name: vmotion
+    device: "{{ vmotion_vmk }}"
+    network:
+      type: static
+      ip_address: 100.64.1.1
+      subnet_mask: 255.255.255.0
+      tcpip_stack: vmotion
+    state: absent
+  ignore_errors: true
+
+- name: destroy portgroups for the test
+  vmware_portgroup:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    hosts: "{{ esxi_hosts }}"
+    switch: "{{ switch1 }}"
+    portgroup: "{{ item }}"
+    state: absent
+  ignore_errors: true
+  loop:
+    - provisioning
+    - vmotion
+
+- name: Restore original configuration
+  vmware_host_tcpip_stacks:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    esxi_hostname: "{{ esxi_hosts[0] }}"
+    default:
+      hostname: "{{ default_stack_backup.dnsConfig.hostName }}"
+      domain: "{{ default_stack_backup.dnsConfig.domainName }}"
+      #preferred_dns: "{{ default_stack_backup.dnsConfig.address }}"
+      search_domains: "{{ default_stack_backup.dnsConfig.searchDomain }}"
+      gateway: "{{ default_stack_backup.ipRouteConfig.defaultGateway }}"
+      congestion_algorithm: "{{ default_stack_backup.congestionControlAlgorithm }}"
+      max_num_connections: "{{ default_stack_backup.requestedMaxNumberOfConnections }}"
+    provisioning:
+      gateway: "{{ provisioning_stack_backup.ipRouteConfig.defaultGateway }}"
+      congestion_algorithm: "{{ provisioning_stack_backup.congestionControlAlgorithm }}"
+      max_num_connections: "{{ provisioning_stack_backup.requestedMaxNumberOfConnections }}"
+    vmotion:
+      gateway: "{{ vmotion_stack_backup.ipRouteConfig.defaultGateway }}"
+      congestion_algorithm: "{{ vmotion_stack_backup.congestionControlAlgorithm }}"
+      max_num_connections: "{{ vmotion_stack_backup.requestedMaxNumberOfConnections }}"

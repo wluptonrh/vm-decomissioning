@@ -1,0 +1,94 @@
+
+---
+ - name: Stage a VM for decommissioning
+   become: false
+   hosts: localhost
+   gather_facts: true
+
+   vars:
+       #stage_vm: rhel86-tpl
+       #staging_folder: /SDDC-Datacenter/vm/Workloads
+       #vsphere_datacenter: SDDC-Datacenter
+       #decom_date:  "{{ ansible_date_time.date | strftime( ( ansible_date_time.epoch | int ) + ( 86400 * 30 )  )}}"
+
+   tasks:
+   - name: Provide information about vCenter folders
+     community.vmware.vmware_folder_info:
+       hostname: '{{ vcenter_hostname }}'
+       username: '{{ vcenter_username }}'
+       password: '{{ vcenter_password }}'
+       datacenter: "{{ vsphere_datacenter }}"
+     delegate_to: localhost
+     register: vcenter_folder_info
+
+   - name: Print vCenter folder info
+     debug:
+       var: vcenter_folder_info
+
+   - name: Gather some info from a guest using the vSphere API output schema
+     community.vmware.vmware_guest_info:
+       hostname: "{{ vcenter_hostname }}"
+       username: "{{ vcenter_username }}"
+       password: "{{ vcenter_password }}"
+       datacenter: "{{ vsphere_datacenter }}"
+       name: "{{ stage_vm }}"
+       #schema: "vsphere"
+       #properties: ["config.hardware.memoryMB", "guest.disk", "overallStatus"]
+     delegate_to: localhost
+     register: vcenter_guest_info
+
+   - name: Print stage vm info
+     debug:
+       var: vcenter_guest_info
+      
+   
+   - name: Set deletion date
+     command: "date +'%d-%m-%Y' -d '+30 days'"
+     register: deletion_date
+
+   - name: Print decomissioning date 
+     debug: 
+        var: deletion_date.stdout
+         
+
+   - name: Create a new tag to define stage date (current day) for staged vm
+     community.vmware.vmware_tag:
+       hostname: '{{ vcenter_hostname }}'
+       username: '{{ vcenter_username }}'
+       password: '{{ vcenter_password }}'
+       category_name: stage-date
+       tag_name: "{{ ansible_date_time.date }}"
+
+   - name: Create a new tag to define deletion date for staged vm
+     community.vmware.vmware_tag:
+       hostname: '{{ vcenter_hostname }}'
+       username: '{{ vcenter_username }}'
+       password: '{{ vcenter_password }}'
+       category_name: deletion-date
+       tag_name:  "{{ deletion_date.stdout }}"
+     
+
+   # Be sure to add tag categories for staging and deletion date within vsphere, those tags will be assigned to the vm here (stage-date, deletion-date)
+   - name: Assign staging and deletion date tags to vm
+     community.vmware.vmware_tag_manager:
+       hostname: '{{ vcenter_hostname }}'
+       username: '{{ vcenter_username }}'
+       password: '{{ vcenter_password }}'
+       tag_names:
+         #- "{{ category_name }}:{{ tag_name }}"
+         - "stage-date:{{ ansible_date_time.date }}"
+         - "deletion-date:{{ deletion_date.stdout }}"
+       object_name: "{{ stage_vm }}"
+       object_type: VirtualMachine
+       state: add
+     delegate_to: localhost
+
+   - name: Move to vm to staging folder
+     community.vmware.vmware_guest_move:
+       hostname: "{{ vcenter_hostname }}"
+       username: "{{ vcenter_username }}"
+       password: "{{ vcenter_password }}"
+       datacenter: "{{ vsphere_datacenter }}"
+       name: "{{ stage_vm }}"
+       dest_folder: "{{ staging_folder }}" #"/{{ datacenter }}/vm"
+     delegate_to: localhost
