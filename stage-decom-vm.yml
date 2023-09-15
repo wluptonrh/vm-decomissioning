@@ -5,11 +5,11 @@
    hosts: localhost
    gather_facts: true
 
-   vars:
-       #stage_vm: rhel86-tpl
-       #staging_folder: /SDDC-Datacenter/vm/Workloads
-       #vsphere_datacenter: SDDC-Datacenter
-       #decom_date:  "{{ ansible_date_time.date | strftime( ( ansible_date_time.epoch | int ) + ( 86400 * 30 )  )}}"
+   #vars:
+       #stage_vm: 
+       #staging_folder: 
+       #vsphere_datacenter: 
+
 
    tasks:
    - name: Provide information about vCenter folders
