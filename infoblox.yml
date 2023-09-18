@@ -1,6 +1,6 @@
 
 ---
- - name: Stage a VM for decommissioning
+ - name: Remove A and PTR Records in Infoblox
    become: false
    hosts: localhost
    var:
