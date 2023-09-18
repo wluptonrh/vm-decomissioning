@@ -1,0 +1,20 @@
+---
+ - name: Fetch all host records and include extended attributes
+   become: false
+   hosts: localhost
+   var:
+      infoblox_username: 
+      infoblox_password:
+   
+   tasks:
+
+    - name: fetch all host records and include extended attributes
+      ansible.builtin.set_fact:
+        host_records: "{{ lookup('infoblox.nios_modules.nios_lookup', 'record:host', return_fields=['extattrs', 'name', 'view', 'comment']}) }}"
+
+    - name: Print host_records
+      debug:
+        var: "{{ host_records }}"
+
+
+   
