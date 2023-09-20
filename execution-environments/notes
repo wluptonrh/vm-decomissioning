@@ -1,1 +1,8 @@
+#provide your red hat login to access the registry
+podman login registry.redhat.io 
+
+#build the image
 ansible-builder build -v3 --tag=my-custom-ee:v1
+
+#once image is built you can find the image using 
+podman images
