@@ -1,0 +1,1 @@
+ansible-builder build -v3 --tag=my-custom-ee:v1
