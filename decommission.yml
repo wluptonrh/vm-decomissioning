@@ -1,0 +1,48 @@
+---
+ - name: Decommission VM on vCenter and Infoblox
+   become: false
+   hosts: localhost
+   gather_facts: true
+
+   # vars:
+   #   decom_vm: 
+   #   staging_folder: 
+     
+
+   tasks: 
+     - name: Gather info on vm to decommission
+       community.vmware.vmware_vm_info:
+         hostname: '{{ vcenter_hostname }}'
+         username: '{{ vcenter_username }}'
+         password: '{{ vcenter_password }}'
+         folder: '{{ staging_folder }}'
+         vm_name: '{{ decom_vm }}'
+         show_tag: true
+       delegate_to: localhost
+       register: vm_info
+
+     - name: Display tags related to vm
+       debug:
+         msg: "{{ vm_info }}"
+
+     - name: Store stage date tag as fact
+       set_fact:
+         stage_tag: "{{ item }}"
+       loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
+       vars:
+         query: "[?category_name==`stage-date`]"
+
+     - name: Store deletion date tag as fact
+       set_fact:
+         decom_tag: "{{ item }}"
+       loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
+       vars:
+         query: "[?category_name==`deletion-date`]"
+
+     - name: Print deletion date
+       debug:
+         msg: "{{ decom_tag.name }}"
+
+     - name: Check if deletion date has been reach on vm
+       debug:
+         msg: "{{ ((decom_tag.name | to_datetime(%d-%m-%Y)) - ( ansible_date_time.date | to_datetime )).days }}"
