@@ -13,6 +13,11 @@
 
 
    tasks:
+   - name: print all hosts this play is targeting
+     debug:
+       var: play_hosts
+     
+   
    - name: Provide information about vCenter folders
      community.vmware.vmware_folder_info:
        hostname: '{{ vcenter_hostname }}'
