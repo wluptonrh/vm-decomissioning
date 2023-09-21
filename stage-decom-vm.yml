@@ -48,15 +48,20 @@
    - name: Print stage vm info
      debug:
        var: vcenter_guest_info
+     delegate_to: localhost
+
       
    
    - name: Set deletion date
      command: "date +'%d-%m-%Y' -d '+{{ decom_delay }} days'"
      register: deletion_date
+     delegate_to: localhost
+
 
    - name: Print decomissioning date 
      debug: 
         var: deletion_date.stdout
+     delegate_to: localhost
          
 
    - name: Create a new tag to define stage date (current day) for staged vm
@@ -66,6 +71,7 @@
        password: '{{ vcenter_password }}'
        category_name: stage-date
        tag_name: "{{ ansible_date_time.date }}"
+     delegate_to: localhost
 
    - name: Create a new tag to define deletion date for staged vm
      community.vmware.vmware_tag:
@@ -75,6 +81,7 @@
        category_name: deletion-date
        validate_certs: false
        tag_name:  "{{ deletion_date.stdout }}"
+     delegate_to: localhost
      
 
    # Be sure to add tag categories for staging and deletion date within vsphere, those tags will be assigned to the vm here (stage-date, deletion-date)
