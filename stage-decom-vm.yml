@@ -2,7 +2,7 @@
 ---
  - name: Stage a VM for decommissioning
    become: false
-   hosts: localhost
+   hosts: all
    gather_facts: true
 
    #vars:
