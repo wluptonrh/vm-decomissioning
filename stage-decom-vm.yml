@@ -9,6 +9,7 @@
        #stage_vm: 
        #staging_folder: 
        #vsphere_datacenter: 
+       #decom_delay: number of days you want the vm to exist in the staging folder and host group
 
 
    tasks:
@@ -45,7 +46,7 @@
       
    
    - name: Set deletion date
-     command: "date +'%d-%m-%Y' -d '+30 days'"
+     command: "date +'%d-%m-%Y' -d '+{{ decom_delay }} days'"
      register: deletion_date
 
    - name: Print decomissioning date 
@@ -97,3 +98,15 @@
        dest_folder: "{{ staging_folder }}" #"/{{ datacenter }}/vm"
        validate_certs: false
      delegate_to: localhost
+
+  - name: Add host to stage-decom inventory group
+    awx.awx.group:
+       name: Cities
+       description: "Local Host Group"
+       inventory: stage-decom
+       state: present
+       hosts:
+         - "{{ stage_vm }}_{{ config.uuid
+       #preserve_existing_hosts: True
+       #preserve_existing_children: True
+       
