@@ -1,7 +1,7 @@
 ---
  - name: Check age of VMs in stage inventory group, move to new vmware decom folder, initiate decomissioning
    become: false
-   hosts: decomissioning-stage #target stage-decom host group
+   hosts: decomissioning-stage #this is the inventory host group targeting stage vms for decommissioning
    gather_facts: true
 
    # vars:
@@ -16,7 +16,7 @@
          hostname: '{{ vcenter_hostname }}'
          username: '{{ vcenter_username }}'
          password: '{{ vcenter_password }}'
-         folder: '{{ staging_folder }}'
+         #folder: '{{ staging_folder }}'
          vm_name: '{{ item }}'
          show_tag: true
        with_items: "{{ ansible_play_hosts }}"
