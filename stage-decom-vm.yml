@@ -106,9 +106,9 @@
    - name: Add host to stage-decom inventory group
      awx.awx.group:
         name: stage-decom
+        controller_host: localhost
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"
-        description: "Local Host Group"
         inventory: decomissioning_stage
         state: present
         hosts:
@@ -116,7 +116,7 @@
         #preserve_existing_hosts: True
         #preserve_existing_children: True
      delegate_to: localhost
-     
+
    - name: Move to vm to staging folder
      community.vmware.vmware_guest_move:
        hostname: "{{ vcenter_hostname }}"
