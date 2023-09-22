@@ -1,5 +1,6 @@
 
 ---
+#asdf
  - name: Stage a VM for decommissioning
    become: false
    hosts: localhost
