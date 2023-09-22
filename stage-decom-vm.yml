@@ -2,11 +2,12 @@
 ---
  - name: Stage a VM for decommissioning
    become: false
-   hosts: all
+   hosts: localhost
    gather_facts: true
 
    #vars:
        #stage_vm: 
+       #stage_vm_controller_name:
        #staging_folder: 
        #vsphere_datacenter: 
        #decom_delay: number of days you want the vm to exist in the staging folder and host group
@@ -112,17 +113,17 @@
        validate_certs: false
      delegate_to: localhost
 
-  # - name: Add host to stage-decom inventory group
-  #   awx.awx.group:
-  #      name: stage-decom
-  #      controller_username: "{{ controller_username }}"
-  #      controller_password: "{{ controller_password }}"
-  #      description: "Local Host Group"
-  #      inventory: stage-decom
-  #      state: present
-  #      hosts:
-  #        - "{{ stage_vm }}_{{ config.uuid
-  #      #preserve_existing_hosts: True
-  #      #preserve_existing_children: True
-  #   delegate_to: localhost
+  - name: Add host to stage-decom inventory group
+    awx.awx.group:
+       name: stage-decom
+       controller_username: "{{ controller_username }}"
+       controller_password: "{{ controller_password }}"
+       description: "Local Host Group"
+       inventory: stage-decom
+       state: present
+       hosts:
+         - "{{ stage_vm_controller_name }}"
+       #preserve_existing_hosts: True
+       #preserve_existing_children: True
+    delegate_to: localhost
        
