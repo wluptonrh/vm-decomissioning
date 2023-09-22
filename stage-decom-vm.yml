@@ -119,7 +119,7 @@
        controller_username: "{{ controller_username }}"
        controller_password: "{{ controller_password }}"
        description: "Local Host Group"
-       inventory: stage-decom
+       inventory: decomissioning_stage
        state: present
        hosts:
          - "{{ stage_vm_controller_name }}"
