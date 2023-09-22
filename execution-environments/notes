@@ -6,3 +6,6 @@ ansible-builder build -v3 --tag=my-custom-ee:v1
 
 #once image is built you can find the image using 
 podman images
+
+#push it to your registry of choice
+podman push [IMAGE_ID] docker.io/username/repo-name:tags
