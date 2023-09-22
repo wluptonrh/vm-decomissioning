@@ -113,17 +113,17 @@
        validate_certs: false
      delegate_to: localhost
 
-  - name: Add host to stage-decom inventory group
-    awx.awx.group:
-       name: stage-decom
-       controller_username: "{{ controller_username }}"
-       controller_password: "{{ controller_password }}"
-       description: "Local Host Group"
-       inventory: decomissioning_stage
-       state: present
-       hosts:
-         - "{{ stage_vm_controller_name }}"
-       #preserve_existing_hosts: True
-       #preserve_existing_children: True
-    delegate_to: localhost
+   - name: Add host to stage-decom inventory group
+     awx.awx.group:
+        name: stage-decom
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
+        description: "Local Host Group"
+        inventory: decomissioning_stage
+        state: present
+        hosts:
+          - "{{ stage_vm_controller_name }}"
+        #preserve_existing_hosts: True
+        #preserve_existing_children: True
+     delegate_to: localhost
        
