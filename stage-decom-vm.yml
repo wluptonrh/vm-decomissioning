@@ -21,19 +21,19 @@
      delegate_to: localhost
      
    
-   - name: Provide information about vCenter folders
-     community.vmware.vmware_folder_info:
-       hostname: '{{ vcenter_hostname }}'
-       username: '{{ vcenter_username }}'
-       password: '{{ vcenter_password }}'
-       datacenter: "{{ vsphere_datacenter }}"
-       validate_certs: false
-     delegate_to: localhost
-     register: vcenter_folder_info
+  #  - name: Provide information about vCenter folders
+  #    community.vmware.vmware_folder_info:
+  #      hostname: '{{ vcenter_hostname }}'
+  #      username: '{{ vcenter_username }}'
+  #      password: '{{ vcenter_password }}'
+  #      datacenter: "{{ vsphere_datacenter }}"
+  #      validate_certs: false
+  #    delegate_to: localhost
+  #    register: vcenter_folder_info
 
-   - name: Print vCenter folder info
-     debug:
-       var: vcenter_folder_info
+  #  - name: Print vCenter folder info
+  #    debug:
+  #      var: vcenter_folder_info
 
    - name: Gather some info from a guest using the vSphere API output schema
      community.vmware.vmware_guest_info:
