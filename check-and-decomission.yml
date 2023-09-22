@@ -49,4 +49,5 @@
 
      - name: Check if deletion date has been reach on vm
        debug:
-         msg: "{{ ((decom_tag.name | to_datetime(%d-%m-%Y)) - ( ansible_date_time.date | to_datetime )).days }}"
+         msg: "{{ (decom_tag.name - ( ansible_date_time.date | to_datetime )).days }}"
+         #msg: "{{ ((decom_tag.name | to_datetime(%d-%m-%Y)) - ( ansible_date_time.date | to_datetime )).days }}"
