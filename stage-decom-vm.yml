@@ -105,7 +105,7 @@
 
    - name: Add host to stage-decom inventory group
      awx.awx.group:
-        name: stage-decom
+        name: decomissioning-stage
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"
