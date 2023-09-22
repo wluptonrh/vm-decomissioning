@@ -16,6 +16,7 @@
    - name: print all hosts this play is targeting
      debug:
        var: play_hosts
+     delegate_to: localhost
      
    
    - name: Provide information about vCenter folders
