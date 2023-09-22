@@ -9,17 +9,20 @@
    #   staging_folder: 
      
 
-   tasks: 
+   tasks:        
+   
      - name: Gather info on vm to decommission
        community.vmware.vmware_vm_info:
          hostname: '{{ vcenter_hostname }}'
          username: '{{ vcenter_username }}'
          password: '{{ vcenter_password }}'
          folder: '{{ staging_folder }}'
-         vm_name: '{{ decom_vm }}'
+         vm_name: '{{ item }}'
          show_tag: true
+       with_items: "{{ ansible_play_hosts }}"
        delegate_to: localhost
        register: vm_info
+       
 
      - name: Display tags related to vm
        debug:
