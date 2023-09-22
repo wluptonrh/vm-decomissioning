@@ -7,6 +7,7 @@
    # vars:
    #   decom_vm: 
    #   staging_folder: 
+   #   stage_vm
      
 
    tasks:        
@@ -17,9 +18,9 @@
          username: '{{ vcenter_username }}'
          password: '{{ vcenter_password }}'
          #folder: '{{ staging_folder }}'
-         vm_name: '{{ item }}'
+         vm_name: '{{ stage_vm }}'
          show_tag: true
-       with_items: "{{ ansible_play_hosts }}"
+       #with_items: "{{ ansible_play_hosts }}"
        delegate_to: localhost
        register: vm_info
        
