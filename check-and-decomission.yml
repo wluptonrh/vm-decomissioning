@@ -51,5 +51,44 @@
        debug:
          msg: "{{ ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days }}"
 
-     #- name: Shutdown VM
+     #Place decomissioning steps below this line
+
+    #  - name: Set the state of a virtual machine to poweroff
+    #    community.vmware.vmware_guest_powerstate:
+    #      hostname: "{{ vcenter_hostname }}"
+    #      username: "{{ vcenter_username }}"
+    #      password: "{{ vcenter_password }}"
+    #      #folder: "/{{ datacenter_name }}/vm/my_folder"
+    #      name: "{{ stage_vm }}"
+    #      state: powered-off
+    #    delegate_to: localhost
+    #    register: deploy
+    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
+
+    #  - name: Remove an A record from the system
+    #    nios_a_record:
+    #      name: #REPLACEME
+    #      ipv4: #REPLACEME
+    #      state: absent
+    #      provider:
+    #        host: "{{ inventory_hostname_short }}"
+    #        username: "{{ infoblox_username }}"
+    #        password: "{{ infoblox_password }}"
+    #    connection: local
+    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
+
+
+    #  - name: Delete a PTR Record
+    #    nios_ptr_record:
+    #      ipv4: #REPLACEME 
+    #      ptrdname: #REPLACEME
+    #      state: absent
+    #      provider:
+    #        host: "{{ inventory_hostname_short }}"
+    #        username: "{{ infoblox_username }}"
+    #        password: "{{ infoblox_password }}"
+    #    connection: local
+    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
+
+
 
