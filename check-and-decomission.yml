@@ -51,6 +51,7 @@
        debug:
          msg: "{{ ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days }}"
 
+
      #Place decomissioning steps below this line
 
     #  - name: Set the state of a virtual machine to poweroff
