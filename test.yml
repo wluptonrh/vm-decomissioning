@@ -1,0 +1,9 @@
+ - name: Test aap execution
+   hosts: all
+
+   tasks:
+    - name: Copy the custom MOTD file
+      copy:
+        content: "Ansible is working!" 
+        dest: /etc/motd
+       
