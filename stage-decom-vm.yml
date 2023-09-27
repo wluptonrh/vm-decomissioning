@@ -11,6 +11,7 @@
        #staging_folder: 
        #vsphere_datacenter: 
        #decom_delay: number of days you want the vm to exist in the staging folder and host group
+       #controller_inventory: the inventory of the host you want to stage 
 
 
    tasks:
@@ -52,20 +53,27 @@
        var: vcenter_guest_info
      delegate_to: localhost
 
-      
-   
+
    - name: Set deletion date
      command: "date +'%d-%m-%Y' -d '+{{ decom_delay }} days'"
      register: deletion_date
      delegate_to: localhost
 
+   - name: Save deletion date as fact
+     set_fact:
+       vm_deletion_date: "{{ deletion_date }}"
+       cacheable: yes
+
+   - name: Set and save stage date as fact
+     set_fact:
+       vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
+       cacheable: yes
 
    - name: Print decomissioning date 
      debug: 
         var: deletion_date.stdout
      delegate_to: localhost
          
-
    - name: Create a new tag to define stage date (current day) for staged vm
      community.vmware.vmware_tag:
        hostname: '{{ vcenter_hostname }}'
@@ -108,7 +116,7 @@
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"
-        inventory: Workshop Inventory
+        inventory: "{{ controller_inventory }}"
         state: present
         hosts:
           - "{{ stage_vm }}"
