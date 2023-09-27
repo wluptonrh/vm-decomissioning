@@ -5,7 +5,7 @@
    tasks:
 
     - debug:
-        msg: "{{ ansible_facts['hostname'] }}"
+        msg: "{{ ansible_facts['stage_date_var'] }}"
     - name: Process template file
       template:
         src: template.j2
