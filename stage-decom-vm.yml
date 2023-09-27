@@ -76,7 +76,7 @@
 
    - name: Print decomissioning date 
      debug: 
-       var: deletion_date.stdout
+       var: vm_deletion_date
      #delegate_to: localhost
          
   #  - name: Create a new tag to define stage date (current day) for staged vm
