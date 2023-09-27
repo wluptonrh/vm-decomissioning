@@ -12,7 +12,7 @@
      - name: Gather facts from fact cache and update report
        lineinfile:
          path: "{{ report_path }}"
-         line: "{{ item  }},{{ hostvars[item]['vm_stage_date'] }}" #",{{ item.vm_deletion_date }},{{ item.vm_is_decommissioned }}"
+         line: "{{ item  }},{{ hostvars[item]['ansible_facts']['vm_stage_date'] }}" #",{{ item.vm_deletion_date }},{{ item.vm_is_decommissioned }}"
          state: present
          create: true
        delegate_to: localhost
