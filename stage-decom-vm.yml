@@ -166,16 +166,16 @@
         #preserve_existing_children: True
      delegate_to: localhost
 
-   - name: Move to vm to staging folder
-     community.vmware.vmware_guest_move:
-       hostname: "{{ vcenter_hostname }}"
-       username: "{{ vcenter_username }}"
-       password: "{{ vcenter_password }}"
-       datacenter: "{{ vsphere_datacenter }}"
-       name: "{{ stage_vm }}"
-       dest_folder: "{{ staging_folder }}" #"/{{ datacenter }}/vm"
-       validate_certs: false
-     delegate_to: localhost
+  #  - name: Move to vm to staging folder
+  #    community.vmware.vmware_guest_move:
+  #      hostname: "{{ vcenter_hostname }}"
+  #      username: "{{ vcenter_username }}"
+  #      password: "{{ vcenter_password }}"
+  #      datacenter: "{{ vsphere_datacenter }}"
+  #      name: "{{ stage_vm }}"
+  #      dest_folder: "{{ staging_folder }}" #"/{{ datacenter }}/vm"
+  #      validate_certs: false
+  #    delegate_to: localhost
    
 
        
