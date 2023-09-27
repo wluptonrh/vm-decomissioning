@@ -187,6 +187,19 @@
         #preserve_existing_children: True
      delegate_to: localhost
 
+   - name: Update host vars
+     awx.awx.host:
+       name: "{{ stage_vm }}"
+       controller_host: "{{ controller_hostname }}"
+       controller_username: "{{ controller_username }}"
+       controller_password: "{{ controller_password }}"
+       inventory: "{{ controller_inventory }}"
+       state: present
+       variables:
+         stage_date_var: "{{ vm_stage_date }}"
+         deletion_date_var: "{{ vm_stage_date }}"
+
+
   #  - name: Move to vm to staging folder
   #    community.vmware.vmware_guest_move:
   #      hostname: "{{ vcenter_hostname }}"
