@@ -9,5 +9,5 @@
     - name: Process template file
       template:
         src: template.j2
-        dest: ~/lab-user/report.txt
+        dest: /home/lab-user/report.txt
          
