@@ -10,4 +10,4 @@
       template:
         src: template.j2
         dest: /home/lab-user/report.txt
-      delegate_to: 127.0.0.1  
+      #delegate_to: localhost
