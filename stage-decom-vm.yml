@@ -4,6 +4,11 @@
    become: false
    hosts: "{{ stage_vm }}"
    gather_facts: true
+   gathering: smart
+   fact_caching: jsonfile
+   fact_caching_connection: ~/lab-user/fact_cache
+   fact_caching_timeout: 0
+
 
 
    vars:
@@ -66,16 +71,17 @@
    - name: Save deletion date as fact
      set_fact:
        vm_deletion_date: "{{ deletion_date.stdout }}"
-  #     cacheable: yes
+       cacheable: yes
 
    - name: Save raw stage date
      set_fact:
        unformatted_vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
-  #     cacheable: yes
+       cacheable: yes
 
    - name: Save stage date as fact (date reformatted for later use)
      set_fact:
        vm_stage_date: "{{ delim_stage_date.1 }}-{{ delim_stage_date.2 }}-{{ delim_stage_date.0 }}"
+       cacheable: yes
      vars:
        raw_stage_date: "{{ unformatted_vm_stage_date }}"
        delim_stage_date: "{{ raw_stage_date.split('-') }}"
@@ -96,7 +102,7 @@
    - name: Set difference between stage and deletion date 
      set_fact:
        stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days }}"
-  
+       cacheable: yes
   
    - name: Print stage_deletion_date_diff
      debug:
@@ -105,34 +111,33 @@
    - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
        vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
-    #   cacheable: yes
+       cacheable: yes
 
    - name: Print is_decommissioned
      debug:
        msg: "{{ vm_is_decommissioned }}"
 
-   - name: Create decomissioning report (if it doesn't exist)
-     lineinfile:
-       path: "{{ stage_report_path }}"
-       line: "stage_vm,stage_date,deletion_date,is_decommissioned"
-       state: present
-       create: true
-     delegate_to: "{{ stage_vm }}"
 
-   - name: Update stage report with current dates
-     lineinfile:
-       path: "{{ stage_report_path }}"
-       line: "{{ stage_vm  }},{{ vm_stage_date }},{{ vm_deletion_date }},{{ vm_is_decommissioned }}"
-       state: present
-       create: true
-     delegate_to: "{{ stage_vm }}"
+
+  #  - name: Create decomissioning report (if it doesn't exist)
+  #    lineinfile:
+  #      path: "{{ stage_report_path }}"
+  #      line: "stage_vm,stage_date,deletion_date,is_decommissioned"
+  #      state: present
+  #      create: true
+  #    delegate_to: "{{ stage_vm }}"
+
+  #  - name: Update stage report with current dates
+  #    lineinfile:
+  #      path: "{{ stage_report_path }}"
+  #      line: "{{ stage_vm  }},{{ vm_stage_date }},{{ vm_deletion_date }},{{ vm_is_decommissioned }}"
+  #      state: present
+  #      create: true
+  #    delegate_to: "{{ stage_vm }}"
 
     
      
-     
 
-
-     #delegate_to: localhost
          
   #  - name: Create a new tag to define stage date (current day) for staged vm
   #    community.vmware.vmware_tag:

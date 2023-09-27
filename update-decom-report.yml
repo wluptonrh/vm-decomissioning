@@ -1,0 +1,20 @@
+---
+ - name: Update decomissioning report
+   become: false
+   hosts: decommissioning-stage #this is the inventory host group targeting stage vms for decommissioning
+   gather_facts: true
+   
+   vars:
+       report_path: /home/lab-user/stage-report
+   tasks:
+     
+     - name: Gather facts from fact cache and update report
+       lineinfile:
+         path: "{{ report_path }}"
+         line: "{{ item.hostname  }},{{ item.vm_stage_date }},{{ item.vm_deletion_date }},{{ item.vm_is_decommissioned }}"
+         state: present
+         create: true
+       delegate_to: localhost
+       loop: "{{ ansible_play_hosts }}"
+
+         
