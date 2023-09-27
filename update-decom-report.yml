@@ -22,7 +22,7 @@
        template: 
          src: template.j2
          dest: ~/lab-user/report.txt
-       delegate_to: localhost
+      # delegate_to: localhost
 
 
          
