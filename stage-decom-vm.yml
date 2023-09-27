@@ -8,7 +8,7 @@
 
    vars:
      current_date: "{{ ansible_date_time.date }}"
-     stage_report_path: /home/lab-user/stage-report.txt
+     stage_report_path: /home/lab-user/stage-report.csv
        #stage_vm: 
        #stage_vm_controller_name:
        #staging_folder: 
@@ -103,10 +103,18 @@
      debug:
        msg: "{{ vm_is_decommissioned }}"
 
-   - name: Create and update decomissioning report (if it doesn't exist)
+   - name: Create decomissioning report (if it doesn't exist)
      lineinfile:
        path: "{{ stage_report_path }}"
-       line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decommissioned }}"
+       line: "stage_vm,stage_date,deletion_date,is_decommissioned"
+       state: present
+       create: true
+     delegate_to: "{{ stage_vm }}"
+
+   - name: Update stage report with current dates
+     lineinfile:
+       path: "{{ stage_report_path }}"
+       line: "{{ stage_vm  }},{{ vm_stage_date }},{{ vm_deletion_date }},{{ vm_is_decommissioned }}"
        state: present
        create: true
      delegate_to: "{{ stage_vm }}"
