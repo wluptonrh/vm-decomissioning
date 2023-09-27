@@ -70,11 +70,23 @@
        vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
        cacheable: yes
 
+   - name: Print curent date
+     debug:
+       var: "{{ current_date }}"
+
+   - name: Print stage date
+     debug:
+       var: vm_stage_date
+     
+   - name: Print decomissioning date 
+     debug: 
+       var: vm_deletion_date
+
    - name: Set difference between stage and deletion date 
      set_fact:
-       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - current_date).days | int }}"
+       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days | int }}"
   
-
+  
    - name: Print stage_deletion_date_diff
      debug:
        var: "{{ stage_deletion_date_diff }}"
@@ -88,14 +100,6 @@
      debug:
        var: "{{ is_decommissioned }}"
 
-       
-   - name: Print stage date
-     debug:
-       var: vm_stage_date
-     
-   - name: Print decomissioning date 
-     debug: 
-       var: vm_deletion_date
 
      #delegate_to: localhost
          
