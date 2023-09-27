@@ -87,7 +87,7 @@
         state: present
         hosts:
           - "{{ stage_vm }}"
-        #preserve_existing_hosts: True
+        preserve_existing_hosts: True
         #preserve_existing_children: True
      delegate_to: localhost
 
