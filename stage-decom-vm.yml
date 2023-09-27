@@ -2,7 +2,7 @@
 ---
  - name: Stage a VM for decommissioning
    become: false
-   hosts: {{ stage_vm }}
+   hosts: "{{ stage_vm }}"
    gather_facts: true
 
    vars:
