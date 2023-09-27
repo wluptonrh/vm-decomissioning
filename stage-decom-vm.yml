@@ -72,7 +72,7 @@
 
    - name: Initialize is_decomissioned variable (sets a boolean for later use, should be falso after executing this playbook)
      set_fact:
-       is_decomissioned: {% if (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d') )).days ==< 0 %}True{% else %}False{% endif %}
+       is_decomissioned: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d') )).days ==< 0 }}"
        cacheable: true
        
    - name: Print stage date
