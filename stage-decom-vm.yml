@@ -94,7 +94,7 @@
      debug:
        var: "{{ stage_deletion_date_diff }}"
 
-   - name: Initialize is_decomissioned variable (cached for later use in check-and-decom playbook)
+   - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
        vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
        cacheable: yes
@@ -106,7 +106,7 @@
    - name: Create and update decomissioning report (if it doesn't exist)
      lineinfile:
        path: "{{ stage_report_path }}"
-       line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ is_decomissioned }}"
+       line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decomissioned }}"
      delegate_to: localhost
      
      
