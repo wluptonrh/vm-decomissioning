@@ -4,53 +4,73 @@
    hosts: decomissioning-stage #this is the inventory host group targeting stage vms for decommissioning
    gather_facts: true
 
-   # vars:
+   vars:
+     stage_report_path: /home/lab-user/stage-report.csv
+     current_date: "{{ ansible_date_time.date }}"
    #   decom_vm: 
    #   staging_folder: 
    #   stage_vm
+   #   stage_report_path:
      
 
    tasks:        
    
-     - name: Gather info on vm to decommission
-       community.vmware.vmware_vm_info:
-         hostname: '{{ vcenter_hostname }}'
-         username: '{{ vcenter_username }}'
-         password: '{{ vcenter_password }}'
-         #folder: '{{ staging_folder }}'
-         vm_name: '{{ stage_vm }}'
-         show_tag: true
-       #with_items: "{{ ansible_play_hosts }}"
-       delegate_to: localhost
-       register: vm_info
+    #  - name: Gather info on vm to decommission
+    #    community.vmware.vmware_vm_info:
+    #      hostname: '{{ vcenter_hostname }}'
+    #      username: '{{ vcenter_username }}'
+    #      password: '{{ vcenter_password }}'
+    #      #folder: '{{ staging_folder }}'
+    #      vm_name: '{{ stage_vm }}'
+    #      show_tag: true
+    #    #with_items: "{{ ansible_play_hosts }}"
+    #    delegate_to: localhost
+    #    register: vm_info
        
 
-     - name: Display tags related to vm
-       debug:
-         msg: "{{ vm_info }}"
+    #  - name: Display tags related to vm
+    #    debug:
+    #      msg: "{{ vm_info }}"
 
-     - name: Store stage date tag as fact
+    #  - name: Store stage date tag as fact
+    #    set_fact:
+    #      stage_tag: "{{ item }}"
+    #    loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
+    #    vars:
+    #      query: "[?category_name==`stage-date`]"
+
+    #  - name: Store deletion date tag as fact
+    #    set_fact:
+    #      decom_tag: "{{ item }}"
+    #    loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
+    #    vars:
+    #      query: "[?category_name==`deletion-date`]"
+
+    #  - name: Print deletion date
+    #    debug:
+    #      msg: "{{ decom_tag.name }}"       
+
+     - name: Read stage_report.csv from each stage_decommissioning host
+       community.general.read_csv:
+         path: "{{ stage_report_path }}"
+         fieldnames: stage_vm,stage_date,deletion_date,is_decommissioned
+         delimiter: ','
+       register: vm_stage_report
+
+     - name: Set set report vsc values to facts (for later use)
        set_fact:
-         stage_tag: "{{ item }}"
-       loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
-       vars:
-         query: "[?category_name==`stage-date`]"
+         stage_vm_csv: "{{ vm_stage_report.0 }}"
+         stage_date_csv: "{{ vm_stage_report.1 }}"
+         deletion_date_csv: "{{ vm_stage_report.2 }}"
+         is_decommissioned_csv: "{{ vm_stage_report.3 }}"
 
-     - name: Store deletion date tag as fact
+     - name: Set difference between stage and deletion date 
        set_fact:
-         decom_tag: "{{ item }}"
-       loop: "{{ vm_info.virtual_machines[0].tags | json_query(query) }}"
-       vars:
-         query: "[?category_name==`deletion-date`]"
+         stage_deletion_date_diff: "{{ (( deletion_date_csv | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%d-%m-%Y'))).days }}"
 
-     - name: Print deletion date
-       debug:
-         msg: "{{ decom_tag.name }}"       
-
-     - name: Check if deletion date has been reached on vm
-       debug:
-         msg: "{{ ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days }}"
-
+     - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
+       set_fact:
+         vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"   
 
      #Place decomissioning steps below this line
 
