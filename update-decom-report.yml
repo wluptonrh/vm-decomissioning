@@ -1,6 +1,6 @@
 ---
  - name: Update decomissioning report
-   become: false
+   become: True
    hosts: "decommissioning_stage" #this is the inventory host group targeting stage vms for decommissioning
    gather_facts: true
    #use_fact_cache: true
