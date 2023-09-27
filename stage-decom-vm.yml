@@ -106,7 +106,7 @@
    - name: Create and update decomissioning report (if it doesn't exist)
      lineinfile:
        path: "{{ stage_report_path }}"
-       line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decomissioned }}"
+       line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decommissioned }}"
      delegate_to: localhost
      
      
