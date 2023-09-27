@@ -109,7 +109,7 @@
        line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decommissioned }}"
        state: present
        create: true
-    delegate_to: localhost
+     delegate_to: localhost
      
      
 
