@@ -70,10 +70,23 @@
        vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
        cacheable: yes
 
-   - name: Initialize is_decomissioned variable (sets a boolean for later use, should be falso after executing this playbook)
+   - name: Set difference between stage and deletion date 
      set_fact:
-       is_decomissioned: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d') )).days ==< 0 }}"
-       cacheable: true
+       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d') ).days | int }}"
+  
+   - name: Print stage_deletion_date_diff
+     debug:
+       var: "{{ stage_deletion_date_diff }}"
+
+   - name: Initialize is_decomissioned variable (cached for later use in check-and-decom playbook)
+     set_fact:
+       is_decommissioned: "{{ stage_deletion_date_diff <= 0 }}"
+       cacheable: yes
+
+   - name: Print is_decommissioned
+     debug:
+       var: "{{ is_decommissioned }}"
+
        
    - name: Print stage date
      debug:
