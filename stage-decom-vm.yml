@@ -95,20 +95,20 @@
      
 
    # Be sure to add tag categories for staging and deletion date within vsphere, those tags will be assigned to the vm here (stage-date, deletion-date)
-   - name: Assign staging and deletion date tags to vm
-     community.vmware.vmware_tag_manager:
-       hostname: '{{ vcenter_hostname }}'
-       username: '{{ vcenter_username }}'
-       password: '{{ vcenter_password }}'
-       tag_names:
-         #- "{{ category_name }}:{{ tag_name }}"
-         - "stage-date:{{ ansible_date_time.date }}"
-         - "deletion-date:{{ deletion_date.stdout }}"
-       object_name: "{{ stage_vm }}"
-       object_type: VirtualMachine
-       state: add
-       validate_certs: false
-     delegate_to: localhost
+  #  - name: Assign staging and deletion date tags to vm
+  #    community.vmware.vmware_tag_manager:
+  #      hostname: '{{ vcenter_hostname }}'
+  #      username: '{{ vcenter_username }}'
+  #      password: '{{ vcenter_password }}'
+  #      tag_names:
+  #        #- "{{ category_name }}:{{ tag_name }}"
+  #        - "stage-date:{{ ansible_date_time.date }}"
+  #        - "deletion-date:{{ deletion_date.stdout }}"
+  #      object_name: "{{ stage_vm }}"
+  #      object_type: VirtualMachine
+  #      state: add
+  #      validate_certs: false
+  #    delegate_to: localhost
 
    - name: Add host to stage-decom inventory group
      awx.awx.group:
