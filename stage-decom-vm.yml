@@ -88,7 +88,7 @@
         hosts:
           - "{{ stage_vm }}"
         preserve_existing_hosts: True
-        #preserve_existing_children: True
+        preserve_existing_children: True
      delegate_to: localhost
 
    - name: Update host vars
