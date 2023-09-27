@@ -93,7 +93,7 @@
 
    - name: Initialize is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
-       is_decommissioned: "{{ stage_deletion_date_diff <= 0 }}"
+       is_decommissioned: "{{ (stage_deletion_date_diff | int) <= 0 }}"
        cacheable: yes
 
    - name: Print is_decommissioned
