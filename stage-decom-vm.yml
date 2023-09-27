@@ -83,15 +83,15 @@
        tag_name: "{{ ansible_date_time.date }}"
      delegate_to: localhost
 
-   - name: Create a new tag to define deletion date for staged vm
-     community.vmware.vmware_tag:
-       hostname: '{{ vcenter_hostname }}'
-       username: '{{ vcenter_username }}'
-       password: '{{ vcenter_password }}'
-       category_name: deletion-date
-       validate_certs: false
-       tag_name:  "{{ deletion_date.stdout }}"
-     delegate_to: localhost
+  #  - name: Create a new tag to define deletion date for staged vm
+  #    community.vmware.vmware_tag:
+  #      hostname: '{{ vcenter_hostname }}'
+  #      username: '{{ vcenter_username }}'
+  #      password: '{{ vcenter_password }}'
+  #      category_name: deletion-date
+  #      validate_certs: false
+  #      tag_name:  "{{ deletion_date.stdout }}"
+  #    delegate_to: localhost
      
 
    # Be sure to add tag categories for staging and deletion date within vsphere, those tags will be assigned to the vm here (stage-date, deletion-date)
