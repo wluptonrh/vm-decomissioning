@@ -127,7 +127,7 @@
        create: true
      delegate_to: "{{ stage_vm }}"
 
-    - 
+    
      
      
 
