@@ -1,5 +1,5 @@
 The following hosts will be decomissioned
 
 {% for host in groups['all'] %}
-"{{ hostvars[inventory_hostname]['hostname']  hostvars[inventory_hostname]['stage_date_var']   hostvars[inventory_hostname]['deletion_date_var'] }}"
+"{{ hostvars[host]['hostname'] }}"  "{{ hostvars[host]['stage_date_var'] }}"   "{{ hostvars[host]['deletion_date_var'] }}"
 {% endfor %}
