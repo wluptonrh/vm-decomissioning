@@ -2,10 +2,11 @@
 ---
  - name: Stage a VM for decommissioning
    become: false
-   hosts: localhost
+   hosts: {{ stage_vm }}
    gather_facts: true
 
-   #vars:
+   vars:
+     current_date: ansible_date_time.date
        #stage_vm: 
        #stage_vm_controller_name:
        #staging_folder: 
@@ -69,14 +70,19 @@
        vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
        cacheable: yes
 
+   - name: Initialize is_decomissioned variable (sets a boolean for later use, should be falso after executing this playbook)
+     set_fact:
+       is_decomissioned: {% if (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d') )).days =< 0 %}True{% else %}False{% endif %}
+       cacheable: true
+       
    - name: Print stage date
      debug:
        var: vm_stage_date
      
-
    - name: Print decomissioning date 
      debug: 
        var: vm_deletion_date
+
      #delegate_to: localhost
          
   #  - name: Create a new tag to define stage date (current day) for staged vm

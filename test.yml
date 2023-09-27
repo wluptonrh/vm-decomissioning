@@ -1,9 +1,13 @@
  - name: Test aap execution
-   hosts: all
+   hosts: 
 
    tasks:
     - name: Copy the custom MOTD file
       copy:
         content: "Ansible is working!" 
         dest: /etc/motd
+
+    - name: Print cached facts
+      debug:
+        msg: This vm was staged at {{ vm_stage_date }} and will be decomissioned at {{ vm_deletion_date }}
        
