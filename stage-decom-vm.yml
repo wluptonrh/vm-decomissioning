@@ -93,12 +93,12 @@
 
    - name: Initialize is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
-       is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
+       vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
        cacheable: yes
 
    - name: Print is_decommissioned
      debug:
-       var: "{{ is_decommissioned }}"
+       msg: "{{ vm_is_decommissioned }}"
 
 
      #delegate_to: localhost
