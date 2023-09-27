@@ -62,7 +62,7 @@
 
    - name: Save deletion date as fact
      set_fact:
-       vm_deletion_date: "{{ deletion_date }}"
+       vm_deletion_date: "{{ deletion_date.stdout }}"
        cacheable: yes
 
    - name: Set and save stage date as fact
