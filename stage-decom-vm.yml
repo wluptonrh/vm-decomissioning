@@ -4,6 +4,7 @@
    become: false
    hosts: "{{ stage_vm }}"
    gather_facts: true
+   use_fact_cache: true
 
 
 
