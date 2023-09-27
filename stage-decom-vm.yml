@@ -198,7 +198,7 @@
        variables:
          stage_date_var: "{{ vm_stage_date }}"
          deletion_date_var: "{{ vm_stage_date }}"
-
+     delegate_to: localhost
 
   #  - name: Move to vm to staging folder
   #    community.vmware.vmware_guest_move:
