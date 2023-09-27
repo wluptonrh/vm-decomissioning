@@ -1,0 +1,5 @@
+The following hosts will be decomissioned
+
+{% for host in groups['all'] %}
+"{{ hostvars[host]['stage_date_var'] }}"
+{% endfor %}

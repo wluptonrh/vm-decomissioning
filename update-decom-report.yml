@@ -9,15 +9,20 @@
        report_path: /home/lab-user/stage-report
    tasks:
 
-     - name: Gather facts from fact cache and update report
-       lineinfile:
-         path: "{{ report_path }}"
-         line: "{{ item  }},{{ hostvars[item]['ansible_facts']['vm_stage_date'] }}" #",{{ item.vm_deletion_date }},{{ item.vm_is_decommissioned }}"
-         state: present
-         create: true
-       delegate_to: localhost
-       loop: "{{ groups['all'] }}"
+    #  - name: Gather facts from fact cache and update report
+    #    lineinfile:
+    #      path: "{{ report_path }}"
+    #      line: "{{ item  }},{{ hostvars[item]['ansible_facts']['vm_stage_date'] }}" #",{{ item.vm_deletion_date }},{{ item.vm_is_decommissioned }}"
+    #      state: present
+    #      create: true
+    #    delegate_to: localhost
+    #    loop: "{{ groups['all'] }}"
 
-   #  - name: create host report using jinja template
+     - name: create host report using jinja template
+       template: 
+         src: template.j2
+         dest: ~/lab-user/report.txt
+       delegate_to: localhost
+
 
          
