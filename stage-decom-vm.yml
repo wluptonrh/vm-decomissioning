@@ -4,6 +4,8 @@
    become: false
    hosts: "{{ stage_vm }}"
    gather_facts: true
+   use_fact_cache: true
+   
 
    vars:
      current_date: "{{ ansible_date_time.date }}"
