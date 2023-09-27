@@ -18,7 +18,7 @@
 
 
    tasks:
-   
+
    - name: print all hosts this play is targeting
      debug:
        var: play_hosts
@@ -79,7 +79,7 @@
 
    - name: Add host to stage-decom inventory group
      awx.awx.group:
-        name: decommissioning-stage
+        name: decommissioning_stage
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"

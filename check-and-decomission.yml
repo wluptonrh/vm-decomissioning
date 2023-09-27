@@ -1,7 +1,7 @@
 ---
  - name: Check age of VMs in stage inventory group, move to new vmware decom folder, initiate decomissioning
    become: false
-   hosts: decommissioning-stage #this is the inventory host group targeting stage vms for decommissioning
+   hosts: decommissioning_stage #this is the inventory host group targeting stage vms for decommissioning
    gather_facts: true
 
    vars:
