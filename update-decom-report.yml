@@ -16,6 +16,6 @@
          state: present
          create: true
        delegate_to: localhost
-       loop: groups['all']
+       loop: "{{ groups['all'] }}"
 
          
