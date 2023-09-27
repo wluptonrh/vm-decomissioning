@@ -66,12 +66,20 @@
    - name: Save deletion date as fact
      set_fact:
        vm_deletion_date: "{{ deletion_date.stdout }}"
-       cacheable: yes
+  #     cacheable: yes
 
-   - name: Set and save stage date as fact
+   - name: Save raw stage date
      set_fact:
-       vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
-       cacheable: yes
+       unformatted_vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
+  #     cacheable: yes
+
+   - name: Save stage date as fact (date reformatted for later use)
+     set_fact:
+       vm_stage_date: "{{ delim_stage_date.1 }}-{{ delim_stage_date.2 }}-{{ delim_stage_date.0 }}"
+     vars:
+       raw_stage_date: "{{ unformatted_vm_stage_date }}"
+       delim_stage_date: "{{ raw_stage_date.split('-') }}"
+
 
    - name: Print curent date
      debug:
@@ -79,7 +87,7 @@
 
    - name: Print stage date
      debug:
-       msg: "{{ vm_stage_date }}"
+       msg: "{{ vm_stage_date | to_datetime(%d-%m-%Y) }}"
      
    - name: Print decomissioning date 
      debug: 
@@ -97,7 +105,7 @@
    - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
        vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
-       cacheable: yes
+    #   cacheable: yes
 
    - name: Print is_decommissioned
      debug:
@@ -118,6 +126,8 @@
        state: present
        create: true
      delegate_to: "{{ stage_vm }}"
+
+    - 
      
      
 
