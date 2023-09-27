@@ -4,9 +4,8 @@
 
    tasks:
 
-    - debug:
-        msg: "{{ hostvars[inventory_hostname]['hostname'] }}"
-
+    # - debug:
+    #     msg: "{{ ansible_facts['hostname']}}"
     - name: Process template file
       template:
         src: template.j2
