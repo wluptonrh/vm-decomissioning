@@ -6,7 +6,7 @@
    gather_facts: true
 
    vars:
-     current_date: ansible_date_time.date
+     current_date: "{{ ansible_date_time.date }}"
        #stage_vm: 
        #stage_vm_controller_name:
        #staging_folder: 
