@@ -87,7 +87,7 @@
 
    - name: Print stage date
      debug:
-       msg: "{{ vm_stage_date | to_datetime(%d-%m-%Y) }}"
+       msg: "{{ vm_stage_date }}" # | to_datetime(%d-%m-%Y) 
      
    - name: Print decomissioning date 
      debug: 
