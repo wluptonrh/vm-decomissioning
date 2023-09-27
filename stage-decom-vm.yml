@@ -8,7 +8,7 @@
 
    vars:
      current_date: "{{ ansible_date_time.date }}"
-     stage_report_path: /home/student1/stage-report.txt
+     stage_report_path: /home/lab-user/stage-report.txt
        #stage_vm: 
        #stage_vm_controller_name:
        #staging_folder: 
@@ -109,7 +109,7 @@
        line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decommissioned }}"
        state: present
        create: true
-     delegate_to: localhost
+     delegate_to: {{ stage_vm }}
      
      
 
