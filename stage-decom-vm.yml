@@ -107,6 +107,7 @@
      lineinfile:
        path: "{{ stage_report_path }}"
        line: "{{ stage_vm  }} {{ vm_stage_date }} {{ vm_deletion_date }} {{ vm_is_decommissioned }}"
+       state: present
      delegate_to: localhost
      
      
