@@ -1,7 +1,11 @@
 ---
  - name: Generate and update decomissioning report
    hosts: decommissioning_stage
+
    tasks:
+
+    - debug:
+        msg: "{{ ansible_facts['hostname']  ansible_facts['stage_date_var'] }}"
     - name: Process template file
       template:
         src: template.j2
