@@ -5,7 +5,7 @@
    tasks:
 
     - debug:
-        msg: "{{ hostvars[inventory_hostname]['stage_date_var'] }}"
+        msg: "{{ hostvars[inventory_hostname]['hostname'] }}"
 
     - name: Process template file
       template:
