@@ -18,4 +18,6 @@
        delegate_to: localhost
        loop: "{{ groups['all'] }}"
 
+   #  - name: create host report using jinja template
+
          
