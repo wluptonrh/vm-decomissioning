@@ -84,7 +84,7 @@
 
    - name: Set difference between stage and deletion date 
      set_fact:
-       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days | int }}"
+       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days }}"
   
   
    - name: Print stage_deletion_date_diff
