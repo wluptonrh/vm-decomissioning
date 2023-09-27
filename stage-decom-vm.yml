@@ -103,7 +103,7 @@
        variables:
          stage_date_var: "{{ vm_stage_date }}"
          deletion_date_var: "{{ vm_stage_date }}"
-         #ansible_host: pull ip or hostname from using vmwar vminfo module
+         ansible_host2: "{{ vcenter_guest_info.instance.ipv4 }}"
      delegate_to: localhost
 
   #  - name: Move to vm to staging folder
