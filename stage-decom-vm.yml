@@ -94,6 +94,7 @@
    - name: Update host vars
      awx.awx.host:
        name: "{{ stage_vm }}"
+       enabled: true
        controller_host: "{{ controller_hostname }}"
        controller_username: "{{ controller_username }}"
        controller_password: "{{ controller_password }}"
