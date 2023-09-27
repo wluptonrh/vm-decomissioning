@@ -1,5 +1,5 @@
  - name: Test aap execution
-   hosts: 
+   hosts: all
 
    tasks:
     - name: Copy the custom MOTD file
