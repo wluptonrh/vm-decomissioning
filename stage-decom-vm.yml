@@ -74,14 +74,14 @@
         var: deletion_date.stdout
      delegate_to: localhost
          
-   - name: Create a new tag to define stage date (current day) for staged vm
-     community.vmware.vmware_tag:
-       hostname: '{{ vcenter_hostname }}'
-       username: '{{ vcenter_username }}'
-       password: '{{ vcenter_password }}'
-       category_name: stage-date
-       tag_name: "{{ ansible_date_time.date }}"
-     delegate_to: localhost
+  #  - name: Create a new tag to define stage date (current day) for staged vm
+  #    community.vmware.vmware_tag:
+  #      hostname: '{{ vcenter_hostname }}'
+  #      username: '{{ vcenter_username }}'
+  #      password: '{{ vcenter_password }}'
+  #      category_name: stage-date
+  #      tag_name: "{{ ansible_date_time.date }}"
+  #    delegate_to: localhost
 
   #  - name: Create a new tag to define deletion date for staged vm
   #    community.vmware.vmware_tag:
