@@ -20,7 +20,7 @@
 
     - name: Add updated content to file
       lineinfile:
-        dest: /home/lab-user/report.txt
+        dest: /tmp/report.txt
         line: "{{ item }}    {{ hostvars[item]['stage_date_var'] }}    {{ hostvars[item]['deletion_date_var'] }}"
         state: present
         insertafter: EOF
