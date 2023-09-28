@@ -22,7 +22,7 @@
         state: present
         insertafter: EOF
       delegate_to: localhost
-      loop: ansible_play_hosts
+      loop: "{{ ansible_play_hosts }}"
 
     # - debug:
     #     msg: "{{ ansible_facts['hostname']}}"
