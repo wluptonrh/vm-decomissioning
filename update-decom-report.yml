@@ -1,13 +1,14 @@
 ---
  - name: Generate and update decomissioning report
    hosts: decommissioning_stage
-   
+   #ensure you have fact caching enabled
+   gather_facts: false
 
    tasks:
 
     - name: Create an empty report file on control host (if it doesn't exist)
       copy:
-        dest: ~/report.txt
+        dest: /tmp/report.txt
         content: |
           The following hosts will be decomissioned
 
@@ -15,6 +16,7 @@
           -------------------------------------- 
       delegate_to: localhost
       become: true
+
 
     - name: Add updated content to file
       lineinfile:
