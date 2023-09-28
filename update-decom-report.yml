@@ -1,7 +1,7 @@
 ---
  - name: Generate and update decomissioning report
    hosts: decommissioning_stage
-   ansible_user: lab-user
+   
 
    tasks:
 
