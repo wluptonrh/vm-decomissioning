@@ -6,7 +6,7 @@
 
     - name: Create an empty report file on control host (if it doesn't exist)
       copy:
-        dest: ~/lab-user/report.txt
+        dest: ~/report.txt
         content: |
           The following hosts will be decomissioned
 
