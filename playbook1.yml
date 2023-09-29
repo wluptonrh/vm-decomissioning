@@ -20,4 +20,4 @@
 
     - name: Print hostname
       debug:
-        msg: "{{ ansible_hostname }}"
+        msg: "{{ ansible_fqdn }}"
