@@ -15,6 +15,12 @@
 
    tasks:        
    
+     - debug: Print deletion_date_var
+         msg: "{{ deletion_date_var }}"
+
+     - debug: Print current_date_var
+         msg: "{{ current_date }}"
+
      - name: Set difference between stage and deletion date 
        set_fact:
          stage_deletion_date_diff: "{{ (( deletion_date_var | to_datetime('%m-%d-%Y')) - ( current_date | to_datetime('%m-%d-%Y'))).days }}"
