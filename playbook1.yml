@@ -9,6 +9,11 @@
         dest: /etc/motd
       register: result
 
+    - name: set a variable to be used in the next play
+      set_fact:
+        cached_var: "this a cached var passed between plays"
+      cacheable: true
+
     - name: Print Workflow Var
       debug: 
         msg: "{{ workflow_var }}"

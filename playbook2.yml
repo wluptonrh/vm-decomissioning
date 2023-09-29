@@ -12,3 +12,7 @@
     - name: Print Workflow Var
       debug: 
         msg: "{{ workflow_var }}"
+
+    - name: Print cached var
+      debug:
+        msg: "{{ cached_var }}"
