@@ -27,8 +27,9 @@
     #   delegate_to: localhost
     #   loop: "{{ ansible_play_hosts }}"
 
-    - debug:
-        msg: "{{ ansible_facts['hostname']}}"
+    # - debug:
+    #     msg: "{{ ansible_facts['hostname']}}"
+    
     - name: Process template file
       template:
         src: template.j2
