@@ -29,9 +29,9 @@
 
     # - debug:
     #     msg: "{{ ansible_facts['hostname']}}"
-    
+
     - name: Process template file
       template:
         src: template.j2
         dest: /home/lab-user/report.txt
-      delegate_to: localhost
+      # localhost
