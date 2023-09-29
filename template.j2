@@ -2,6 +2,6 @@ The following hosts will be decomissioned:
 
 HOST      STAGE_DATE     DELETION_DATE
 --------------------------------------
-{% for host in ansible_play_hosts  | reject('==', localhost) %}
+{% for host in ansible_play_hosts %}
 "{{ host }}"   "{{ hostvars[host]['stage_date_var'] }}"   "{{ hostvars[host]['deletion_date_var'] }}"
 {% endfor %}
