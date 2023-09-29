@@ -45,7 +45,7 @@
 
 
    - name: Set deletion date
-     command: "date +'%d-%m-%Y' -d '+{{ decom_delay }} days'"
+     command: "date +'%m-%d-%Y' -d '+{{ decom_delay }} days'"
      register: deletion_date
      delegate_to: localhost
 
