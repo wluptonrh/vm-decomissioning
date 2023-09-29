@@ -1,0 +1,14 @@
+ - name: Test aap execution
+   hosts: all
+
+   tasks:
+
+    - name: Copy the custom MOTD file
+      lineinfile:
+        line: "This is the second step in the workflow" 
+        path: /etc/motd
+        insertafter: EOF
+
+    - name: Print Workflow Var
+      debug: 
+        msg: "{{ workflow_var }}"

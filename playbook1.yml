@@ -1,0 +1,14 @@
+ - name: Test aap execution
+   hosts: all
+
+   tasks:
+
+    - name: Copy the custom MOTD file
+      copy:
+        content: "This is the first step in the workflow" 
+        dest: /etc/motd
+      register: result
+
+    - name: Print Workflow Var
+      debug: 
+        msg: "{{ workflow_var }}"
