@@ -12,7 +12,7 @@
     - name: set a variable to be used in the next play
       set_fact:
         cached_var: "this a cached var passed between plays"
-      cacheable: true
+        cacheable: true
 
     - name: Print Workflow Var
       debug: 
