@@ -17,3 +17,7 @@
     - name: Print Workflow Var
       debug: 
         msg: "{{ workflow_var }}"
+
+    - name: Print hostname
+      debug:
+        msg: "{{ ansible_hostname }}"
