@@ -56,7 +56,7 @@
     #      state: powered-off
     #    delegate_to: localhost
     #    register: deploy
-    #    when: ready_to_decommission == "true"
+    #    when: ready_to_decommission 
 
     #  - name: Remove an A record from the system
     #    nios_a_record:
@@ -68,7 +68,7 @@
     #        username: "{{ infoblox_username }}"
     #        password: "{{ infoblox_password }}"
     #    connection: local
-    #    when: 
+    #    when: ready_to_decommission 
 
     #  - name: Delete a PTR Record
     #    nios_ptr_record:
@@ -80,7 +80,9 @@
     #        username: "{{ infoblox_username }}"
     #        password: "{{ infoblox_password }}"
     #    connection: local
-    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
+    #    when: ready_to_decommission 
+
+
 
 
 
