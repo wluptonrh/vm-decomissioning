@@ -1,5 +1,5 @@
  - name: Test aap execution
-   hosts: all
+   hosts: decommissioning_stage
 
    tasks:
 
