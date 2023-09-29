@@ -6,7 +6,7 @@
 
    vars:
      stage_report_path: /home/lab-user/stage-report.csv
-     current_date: "{{ ansible_date_time.date | to_datetime('%m-%d-%Y') }}"
+     current_date: "{{ ansible_date_time }}"
    #   decom_vm: 
    #   staging_folder: 
    #   stage_vm
