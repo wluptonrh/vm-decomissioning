@@ -91,7 +91,7 @@
         preserve_existing_children: True
      delegate_to: localhost
 
-   - name: Update host vars
+   - name: Update host vars with stage and deletion dates
      awx.awx.host:
        name: "{{ stage_vm }}"
        enabled: true

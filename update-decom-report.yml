@@ -34,4 +34,4 @@
       template:
         src: template.j2
         dest: /home/lab-user/report.txt
-      # localhost
+      delegate_to: localhost
