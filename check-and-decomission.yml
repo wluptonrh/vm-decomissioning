@@ -17,7 +17,7 @@
    
      - name: Set difference between stage and deletion date 
        set_fact:
-         stage_deletion_date_diff: "{{ (( deletion_date_var | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%d-%m-%Y'))).days }}"
+         stage_deletion_date_diff: "{{ (( deletion_date_var | to_datetime('%m-%d-%Y')) - ( current_date | to_datetime('%m-%d-%Y'))).days }}"
 
      - name: Print stage_deletion_date_diff
        debug:
