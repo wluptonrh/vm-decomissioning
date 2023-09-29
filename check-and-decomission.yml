@@ -31,14 +31,18 @@
        debug:
          var: "{{ stage_deletion_date_diff }}"
 
-
      - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
        set_fact:
          ready_to_decommission: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"   
 
-     - name: Print is_decommissioned
+     - name: Hosts that are ready to decommission
        debug:
          msg: "{{ ready_to_decommission }}"
+
+     - name: Decomission
+       debug: 
+         msg: "This host is being decommissioned"
+       when: ready_to_decommission == "true"
 
      #Place decomissioning steps below this line
 
@@ -52,7 +56,7 @@
     #      state: powered-off
     #    delegate_to: localhost
     #    register: deploy
-    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
+    #    when: ready_to_decommission == "true"
 
     #  - name: Remove an A record from the system
     #    nios_a_record:
@@ -64,8 +68,7 @@
     #        username: "{{ infoblox_username }}"
     #        password: "{{ infoblox_password }}"
     #    connection: local
-    #    when: ((decom_tag.name | to_datetime('%d-%m-%Y')) - ( ansible_date_time.date | to_datetime('%Y-%m-%d') )).days =< 0
-
+    #    when: 
 
     #  - name: Delete a PTR Record
     #    nios_ptr_record:
