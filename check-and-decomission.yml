@@ -42,7 +42,7 @@
      - name: Decomission
        debug: 
          msg: "This host is being decommissioned"
-       when: ready_to_decommission == "true"
+       when: ready_to_decommission
 
      #Place decomissioning steps below this line
 
