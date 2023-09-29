@@ -6,31 +6,31 @@
 
    tasks:
 
-    - name: Create an empty report file on control host (if it doesn't exist)
-      copy:
-        dest: /tmp/report.txt
-        content: |
-          The following hosts will be decomissioned
+    # - name: Create an empty report file on control host (if it doesn't exist)
+    #   copy:
+    #     dest: /tmp/report.txt
+    #     content: |
+    #       The following hosts will be decomissioned
 
-          HOST      STAGE_DATE     DELETION_DATE
-          -------------------------------------- 
-      delegate_to: localhost
-      become: true
+    #       HOST      STAGE_DATE     DELETION_DATE
+    #       -------------------------------------- 
+    #   delegate_to: localhost
+    #   become: true
 
 
-    - name: Add updated content to file
-      lineinfile:
-        dest: /tmp/report.txt
-        line: "{{ item }}    {{ hostvars[item]['stage_date_var'] }}    {{ hostvars[item]['deletion_date_var'] }}"
-        state: present
-        insertafter: EOF
-      delegate_to: localhost
-      loop: "{{ ansible_play_hosts }}"
+    # - name: Add updated content to file
+    #   lineinfile:
+    #     dest: /tmp/report.txt
+    #     line: "{{ item }}    {{ hostvars[item]['stage_date_var'] }}    {{ hostvars[item]['deletion_date_var'] }}"
+    #     state: present
+    #     insertafter: EOF
+    #   delegate_to: localhost
+    #   loop: "{{ ansible_play_hosts }}"
 
-    # - debug:
-    #     msg: "{{ ansible_facts['hostname']}}"
-    # - name: Process template file
-    #   template:
-    #     src: template.j2
-    #     dest: /home/lab-user/report.txt
-    #   #delegate_to: localhost
+    - debug:
+        msg: "{{ ansible_facts['hostname']}}"
+    - name: Process template file
+      template:
+        src: template.j2
+        dest: /home/lab-user/report.txt
+      #delegate_to: localhost
