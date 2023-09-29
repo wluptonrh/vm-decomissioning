@@ -103,7 +103,7 @@
        variables:  #Note: this may overwrite existing hostvars for this host
          ansible_host: "{{ vcenter_guest_info.instance.ipv4 }}"       
          stage_date_var: "{{ vm_stage_date }}"
-         deletion_date_var: "{{ vm_stage_date }}"
+         deletion_date_var: "{{ vm_deletion_date}}"
      delegate_to: localhost
 
   #  - name: Move to vm to staging folder
