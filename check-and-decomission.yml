@@ -15,10 +15,12 @@
 
    tasks:        
    
-     - debug: Print deletion_date_var
+     - name: Print deletion_date_var
+       debug: 
          msg: "{{ deletion_date_var }}"
 
-     - debug: Print current_date_var
+     - name: Print current_date_var
+       debug: 
          msg: "{{ current_date }}"
 
      - name: Set difference between stage and deletion date 
