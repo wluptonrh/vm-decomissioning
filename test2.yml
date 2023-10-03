@@ -1,0 +1,8 @@
+---
+ - name: test dig command
+   hosts: all
+
+   tasks:
+     
+     - name: test dig
+       command: dig -x 127.0.0.1
