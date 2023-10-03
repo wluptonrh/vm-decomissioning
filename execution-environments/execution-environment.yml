@@ -14,6 +14,7 @@ dependencies:
     - name: community.vmware
     - name: infoblox.nios_modules
   python: requirements.txt
+  system: bindep.txt
 
 #Uncomment if you are building from the RHEL ubi or minimal ee image
 options:
