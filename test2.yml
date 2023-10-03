@@ -6,3 +6,7 @@
      
      - name: test dig
        command: dig -x 127.0.0.1
+       register: result
+
+     - debug:
+         msg: "{{ result }}"
