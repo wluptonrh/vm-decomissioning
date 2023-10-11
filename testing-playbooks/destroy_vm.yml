@@ -1,0 +1,84 @@
+---
+
+- name: Set the state of a virtual machine to poweroff
+
+  community.vmware.vmware_guest_powerstate:
+
+    hostname: "{{ vcenter_hostname }}"
+
+    username: "{{ vcenter_username }}"
+
+    password: "{{ vcenter_password }}"
+
+    name: "{{ target_host }}"
+
+    state: powered-off
+
+  delegate_to: localhost
+
+  register: deploy
+
+  when: hostvars[target_host].ready_to_decommission | bool == true
+
+ 
+
+- name: debug
+
+  debug:
+
+    msg: "{{ hostvars[target_host].ready_to_decommission }}"
+
+ 
+
+- name: Remove an A record from the system
+
+  infoblox.nios_modules.nios_a_record:
+
+    name: "{{ hostvars[target_host]['fqdn_var'] }}"
+
+    ipv4: "{{ hostvars[target_host]['ansible_host'] }}"
+
+    state: absent
+
+    view: Internal
+
+    provider:
+
+      host: "{{ infoblox_host }}"
+
+      username: "{{ infoblox_username }}"
+
+      password: "{{ infoblox_password }}"
+
+  delegate_to: localhost
+
+  connection: local
+
+  when: hostvars[target_host].ready_to_decommission | bool == true
+
+ 
+
+- name: Delete a PTR Record
+
+  infoblox.nios_modules.nios_ptr_record:
+
+    ipv4: "{{ hostvars[target_host]['fqdn_var'] }}"
+
+    ptrdname: "{{ hostvars[target_host]['fqdn_var'] }}"
+
+    state: absent
+
+    view: Internal
+
+    provider:
+      host: "{{ infoblox_host }}"
+
+      username: "{{ infoblox_username }}"
+
+      password: "{{ infoblox_password }}"
+
+  delegate_to: localhost
+
+  connection: local
+
+  when: hostvars[target_host].ready_to_decommission | bool == true

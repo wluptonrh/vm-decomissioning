@@ -1,0 +1,127 @@
+---
+
+ - name: Check age of VMs in stage inventory group, move to new vmware decom folder, initiate decomissioning
+
+   become: false
+
+   hosts: decommissioning_stage #this is the inventory host group targeting stage vms for decommissioning
+
+   gather_facts: false
+
+   vars:
+
+     stage_report_path: /home/lab-user/stage-report.csv
+
+     
+
+ 
+
+   tasks:
+
+     - name: Set current date-time
+
+       delegate_to: localhost
+
+       set_fact:
+
+         current_date: "{{ '%m-%d-%Y' | strftime }}"
+
+ 
+
+     - name: Set difference between stage and deletion date
+
+       set_fact:
+
+         stage_deletion_date_diff: "{{ (( deletion_date_var | to_datetime('%m-%d-%Y')) - ( current_date | to_datetime('%m-%d-%Y'))).days }}"
+
+ 
+
+     - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
+
+       set_fact:
+
+         ready_to_decommission: "{{ true if (stage_deletion_date_diff | int) <= 0 else false}}"
+
+ 
+
+     - name: debug hostvars
+
+       debug:
+
+         msg: "{{ hostvars[inventory_hostname] }}"
+
+ 
+
+     - name: import host variables into this play run
+
+       set_fact:
+
+         ansible_host_c: "{{ hostvars[inventory_hostname].ansible_host}}"
+
+ 
+
+     - name: import host variables into this play run
+
+       set_fact:
+
+         stage_date_var_c: "{{ hostvars[inventory_hostname].stage_date_var}}"
+
+ 
+
+     - name: import host variables into this play run
+
+       set_fact:
+
+         deletion_date_var_c: "{{ hostvars[inventory_hostname].deletion_date_var}}"
+
+ 
+
+     - name: import host variables into this play run
+
+       set_fact:
+
+         fqdn_var_c: "{{ hostvars[inventory_hostname].fqdn_var}}"
+
+ 
+
+     - name: import host variables into this play run
+
+       set_fact:
+
+         ready_to_decommission_c: "{{ hostvars[inventory_hostname].ready_to_decommission}}"
+
+ 
+
+     - name: Update host vars with stage and deletion dates
+
+       awx.awx.host:
+
+        name: "{{ inventory_hostname }}"
+
+        enabled: true
+
+        controller_host: "{{ controller_hostname }}"
+
+        controller_username: "{{ controller_username }}"
+
+        controller_password: "{{ controller_password }}"
+
+        inventory: "{{ controller_inventory }}"
+
+        state: present
+
+        variables:
+
+          ansible_host: "{{ ansible_host_c }}"
+
+          stage_date_var: "{{ stage_date_var_c }}"
+
+          deletion_date_var: "{{ deletion_date_var_c }}"
+
+          fqdn_var: "{{ fqdn_var_c }}"
+
+          ready_to_decommission: "{{ ready_to_decommission_c }}"
+
+ 
+
+       delegate_to: localhost

@@ -1,0 +1,25 @@
+---
+
+- name: loop and destroy vms
+
+  hosts: decommissioning_stage
+
+  gather_facts: false
+
+ 
+
+  tasks:
+
+    - name: kill vm
+
+      ansible.builtin.include_tasks: destroy_vm.yml
+
+      loop: "{{ ansible_play_hosts }}"
+
+      loop_control:
+
+        loop_var: target_host
+
+      vars:
+
+        target_host: "{{ item }}"
