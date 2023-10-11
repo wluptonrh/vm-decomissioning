@@ -54,17 +54,18 @@
        vm_deletion_date: "{{ deletion_date.stdout }}"
 
 
-   - name: Save raw stage date
-     set_fact:
-       unformatted_vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
+  #  - name: Save raw stage date
+  #    set_fact:
+  #      unformatted_vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
 
 
    - name: Save stage date as fact (date reformatted for later use)
      set_fact:
-       vm_stage_date: "{{ delim_stage_date.1 }}-{{ delim_stage_date.2 }}-{{ delim_stage_date.0 }}"
-     vars:
-       raw_stage_date: "{{ unformatted_vm_stage_date }}"
-       delim_stage_date: "{{ raw_stage_date.split('-') }}"
+       vm_stage_date: "{{ '%m-%d-%Y' | strftime }}"  #"{{ delim_stage_date.1 }}-{{ delim_stage_date.2 }}-{{ delim_stage_date.0 }}"
+    #  vars:
+    #    raw_stage_date: "{{ unformatted_vm_stage_date }}"
+    #    delim_stage_date: "{{ raw_stage_date.split('-') }}"
+
 
    - name: Set difference between stage and deletion date 
      set_fact:
