@@ -102,7 +102,7 @@
          ansible_host: "{{ vcenter_guest_info.instance.ipv4 }}"       
          stage_date_var: "{{ vm_stage_date }}"
          deletion_date_var: "{{ vm_deletion_date}}"
-         ready_to_decommission_var: "{{ ready_to_decomission }}"
+         ready_to_decommission_var: "{{ vm_is_decomissioned }}"
      delegate_to: localhost
 
 
