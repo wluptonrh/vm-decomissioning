@@ -52,17 +52,16 @@
    - name: Save deletion date as fact
      set_fact:
        vm_deletion_date: "{{ deletion_date.stdout }}"
-       cacheable: yes
+
 
    - name: Save raw stage date
      set_fact:
        unformatted_vm_stage_date: "{{ ansible_date_time.date }}" #add date-time filter to fix formatting
-       cacheable: yes
+
 
    - name: Save stage date as fact (date reformatted for later use)
      set_fact:
        vm_stage_date: "{{ delim_stage_date.1 }}-{{ delim_stage_date.2 }}-{{ delim_stage_date.0 }}"
-       cacheable: yes
      vars:
        raw_stage_date: "{{ unformatted_vm_stage_date }}"
        delim_stage_date: "{{ raw_stage_date.split('-') }}"
@@ -70,12 +69,11 @@
    - name: Set difference between stage and deletion date 
      set_fact:
        stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days }}"
-       cacheable: yes
+
 
    - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
      set_fact:
        vm_is_decommissioned: "{{ 'True' if (stage_deletion_date_diff | int) <= 0 else 'False'}}"
-       cacheable: yes
 
    - name: Add host to stage-decom inventory group
      awx.awx.group:
@@ -104,21 +102,22 @@
          ansible_host: "{{ vcenter_guest_info.instance.ipv4 }}"       
          stage_date_var: "{{ vm_stage_date }}"
          deletion_date_var: "{{ vm_deletion_date}}"
-     delegate_to: localhost
-
-
-   - name: Update host vars with stage and deletion dates
-     awx.awx.host:
-       name: "{{ stage_vm }}"
-       enabled: true
-       controller_host: "{{ controller_hostname }}"
-       controller_username: "{{ controller_username }}"
-       controller_password: "{{ controller_password }}"
-       inventory: "{{ controller_inventory }}"
-       state: present
-       variables: 
          ready_to_decommission_var: "{{ ready_to_decomission }}"
      delegate_to: localhost
+
+
+  #  - name: Update host vars with stage and deletion dates
+  #    awx.awx.host:
+  #      name: "{{ stage_vm }}"
+  #      enabled: true
+  #      controller_host: "{{ controller_hostname }}"
+  #      controller_username: "{{ controller_username }}"
+  #      controller_password: "{{ controller_password }}"
+  #      inventory: "{{ controller_inventory }}"
+  #      state: present
+  #      variables: 
+         
+  #    delegate_to: localhost
 
   #  - name: Move to vm to staging folder
   #    community.vmware.vmware_guest_move:
