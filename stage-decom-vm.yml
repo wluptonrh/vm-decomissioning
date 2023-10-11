@@ -7,8 +7,8 @@
    
 
    vars:
-     current_date: "{{ ansible_date_time.date }}"
-     stage_report_path: /home/lab-user/stage-report.csv
+     current_date: "{{ '%m-%d-%Y' | strftime }}"
+
        #stage_vm: 
        #stage_vm_controller_name:
        #staging_folder: 
@@ -68,7 +68,7 @@
 
    - name: Set difference between stage and deletion date 
      set_fact:
-       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%d-%m-%Y')) - ( current_date | to_datetime('%Y-%m-%d'))).days }}"
+       stage_deletion_date_diff: "{{ (( vm_deletion_date | to_datetime('%m-%d-%Y')) - ( current_date | to_datetime('%m-%d-%Y'))).days }}"
 
 
    - name: Initialize vm_is_decomissioned variable (cached for later use in check-and-decom playbook)
