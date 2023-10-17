@@ -14,12 +14,12 @@
 
       ansible.builtin.include_tasks: destroy_vm.yml
 
-      loop: "{{ ansible_play_hosts }}"
+      # loop: "{{ ansible_play_hosts }}"
 
-      loop_control:
+      # loop_control:
 
-        loop_var: target_host
+      #   loop_var: target_host
 
-      vars:
+      # vars:
 
-        target_host: "{{ item }}"
+      #   target_host: "{{ item }}"

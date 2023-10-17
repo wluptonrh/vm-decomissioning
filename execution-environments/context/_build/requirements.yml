@@ -1,3 +1,4 @@
 collections:
 - name: community.vmware
+- name: community.general
 - name: infoblox.nios_modules

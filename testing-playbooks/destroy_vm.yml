@@ -62,7 +62,7 @@
 
   infoblox.nios_modules.nios_ptr_record:
 
-    ipv4: "{{ hostvars[target_host]['fqdn_var'] }}"
+    ipv4: "{{ hostvars[target_host]['ansible_host'] }}"
 
     ptrdname: "{{ hostvars[target_host]['fqdn_var'] }}"
 

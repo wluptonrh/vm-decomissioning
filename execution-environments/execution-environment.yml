@@ -3,15 +3,15 @@ version: 3
 
 images:
   base_image:
-    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
+    name: ansible-automation-platform-24/ee-supported-rhel9:1.0.0-424
+    #https://catalog.redhat.com/software/containers/search?build_categories_list=Automation%20execution%20environment&p=1
     #find other image options here: https://catalog.redhat.com/software/containers/ansible-automation-platform/
-    #registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel9@latest
-    #registry.redhat.io/ansible-automation-platform/ee-minimal-rhel8@latest
     
 dependencies:
   galaxy:
     collections:
     - name: community.vmware
+    - name: community.general
     - name: infoblox.nios_modules
   python: requirements.txt
   system: bindep.txt
