@@ -3,7 +3,7 @@ version: 3
 
 images:
   base_image:
-    name: ansible-automation-platform-24/ee-supported-rhel9:1.0.0-424
+    name: ansible-automation-platform-24/ee-supported-rhel8:1.0.0-436 #-automation-platform-24/ee-supported-rhel9:1.0.0-424
     #https://catalog.redhat.com/software/containers/search?build_categories_list=Automation%20execution%20environment&p=1
     #find other image options here: https://catalog.redhat.com/software/containers/ansible-automation-platform/
     
@@ -16,8 +16,8 @@ dependencies:
   python: requirements.txt
   system: bindep.txt
 
-#Uncomment if you are building from the RHEL ubi or minimal ee image
-options:
-   package_manager_path: /usr/bin/microdnf
+# #Uncomment if you are building from the RHEL ubi or minimal ee image
+# options:
+#    package_manager_path: /usr/bin/microdnf
 
 #ansible-builder build --tag=my-custom-ee
